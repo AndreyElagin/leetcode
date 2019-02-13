@@ -27,7 +27,27 @@ class AddTwoNumbersTest {
         assertTrue(listNode.val == 7
                 && listNode.next.val == 0
                 && listNode.next.next.val == 8);
-        // TODO: 2019-02-13 add case when only one element in input but sum more then 10
-        // TODO: 2019-02-13 add case when inputs have different length
+    }
+
+    @Test
+    public void addTwoNumbersOneDigitOverflow() {
+        ListNode listNode1 = new ListNode(6);
+        ListNode listNode2 = new ListNode(6);
+
+        ListNode listNode = AddTwoNumbers.addTwoNumbers(listNode1, listNode2);
+
+        assertTrue(listNode.val == 2 && listNode.next.val == 1);
+    }
+
+    @Test
+    public void addTwoNumbersNotEqualDigitsCount() {
+        ListNode listNode1 = new ListNode(6);
+
+        ListNode listNode2 = new ListNode(0);
+        listNode2.next = new ListNode(1);
+
+        ListNode listNode = AddTwoNumbers.addTwoNumbers(listNode1, listNode2);
+
+        assertTrue(listNode.val == 6 && listNode.next.val == 1);
     }
 }

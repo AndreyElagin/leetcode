@@ -1,7 +1,5 @@
 package com.study.leetcode;
 
-import java.util.Stack;
-
 /**
  * You are given two non-empty linked lists representing
  * two non-negative integers. The digits are stored in
@@ -19,69 +17,35 @@ import java.util.Stack;
 public class AddTwoNumbers {
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        Stack<Integer> nodes1 = new Stack<>();
-        Stack<Integer> nodes2 = new Stack<>();
-
-        fillStack(l1, nodes1);
-        fillStack(l2, nodes2);
-
+        ListNode head = new ListNode(0);
+        ListNode first = l1;
+        ListNode second = l2;
+        ListNode curr = head;
         int reminder = 0;
-        int firstNodeValue = nodes1.pop() + nodes2.pop();
-        ListNode firstNode;
 
-        if (firstNodeValue > 9) {
-            firstNode = new ListNode(firstNodeValue - 10);
-            reminder = 1;
-        } else {
-            firstNode = new ListNode(firstNodeValue);
+        while (first != null || second != null) {
+            int val1 = first != null ? first.val : 0;
+            int val2 = second != null ? second.val : 0;
+
+            first = first != null ? first.next : null;
+            second = second != null ? second.next : null;
+
+            int sum = val1 + val2 + reminder;
+            reminder = sum > 9 ? 1 : 0;
+            ListNode next = new ListNode(sum % 10);
+            curr.next = next;
+            curr = next;
+        }
+        if (reminder > 0) {
+            curr.next = new ListNode(reminder);
         }
 
-        ListNode listNode = firstNode;
-
-        do {
-            if (nodes1.isEmpty() || nodes2.isEmpty()) {
-                if (reminder > 0) {
-                    listNode.next = new ListNode(reminder);
-                }
-                break;
-            }
-            ListNode next;
-
-            int value = nodes1.pop() + nodes2.pop() + reminder;
-            reminder = 0;
-            if (value > 9) {
-                next = new ListNode(value - 10);
-                listNode.next = next;
-                listNode = next;
-                reminder = 1;
-            } else {
-                next = new ListNode(value);
-                listNode.next = next;
-                listNode = next;
-            }
-        } while (!nodes1.isEmpty() && !nodes2.isEmpty());
-
-        return firstNode;
-    }
-
-    private static void fillStack(ListNode listNode, Stack<Integer> stack) {
-        do {
-            stack.push(listNode.val);
-            listNode = listNode.next;
-        }
-        while (listNode != null);
+        return head.next;
     }
 }
 
 class ListNode {
-    @Override
-    public String toString() {
-        return "ListNode{" +
-                "val=" + val +
-                ", next=" + next +
-                '}';
-    }
-
+    
     int val;
     ListNode next;
 
